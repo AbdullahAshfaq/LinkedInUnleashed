@@ -9,3 +9,8 @@ https://www.kaggle.com/datasets/proxycurl/10000-us-company-profiles/download?dat
 
 ### People Profiles:
 https://www.kaggle.com/datasets/proxycurl/10000-us-people-profiles/download?datasetVersionNumber=1
+
+
+
+### May Consider
+https://www.kaggle.com/datasets/techmap/us-job-postings-from-2023-05-05
