@@ -50,7 +50,7 @@ file_list = [
     (
         "companies",
         "companies/us_companies_proxycurl/10000_united_states_companies_profiles.csv",
-        ["linkedin_internal_id","website","industry","hq", "specialities", "locations", "similar_companies", "updates"],
+        ["linkedin_internal_id","name","website","industry","hq", "specialities", "locations", "similar_companies", "updates"],
     )
 ]
 

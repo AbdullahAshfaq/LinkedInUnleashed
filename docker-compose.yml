@@ -27,10 +27,13 @@ services:
     volumes:
       - neoconf:/conf
       - neodata:/data
+      - ./data:/var/lib/neo4j/import # To import csv
     environment: 
       - NEO4J_dbms_memory_pagecache_size=2G
-      - NEO4J_dbms.memory.heap.initial_size=2G
+      - NEO4J_dbms_memory_heap_initial_size=2G
       - NEO4J_dbms_memory_heap_max__size=2G
+      - NEO4JLABS_PLUGINS=["apoc"] # To install APOC procedures
+      - NEO4J_apoc_import_file_enabled=true
   
   mongodb:
     image: mongo

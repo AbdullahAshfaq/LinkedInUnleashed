@@ -188,3 +188,9 @@ interests                        varchar(20) []
 );
 
 select public_identifier, full_name,count(*) from uspeople_pc group by 1,2 having count(*)>1;
+
+select * from uspeople_pc;
+where public_identifier like '%alissonslp%';
+
+select * from company_pc where lower(name) like '%nike%';
+select * from company_pc;
