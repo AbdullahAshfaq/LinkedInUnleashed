@@ -26,7 +26,7 @@ class Mongo_Connector():
         client = pymongo.MongoClient(f"mongodb://{self.creds['user']}:{self.creds['password']}@{self.creds['host']}:{self.creds['port']}/")
         return client
     
-    
+
     def json2Mongo(self, collection_name, input_json):
         db = self.client[self.creds['db']]
         collection = db[collection_name]
@@ -48,6 +48,17 @@ class Mongo_Connector():
 
         result = collection.bulk_write(requesting)
         return result
+    
+
+    def Mongo2json(self, collection_name, query):
+        mydb = self.client[self.creds['db']]
+        mycol = mydb[collection_name]
+        mydoc = mycol.aggregate(query)
+        returned_lst = []
+        for x in mydoc:
+            returned_lst.append(x)
+        
+        return returned_lst
 
 
     def closeConnection(self):

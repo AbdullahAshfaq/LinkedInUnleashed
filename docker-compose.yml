@@ -27,7 +27,7 @@ services:
     volumes:
       - neoconf:/conf
       - neodata:/data
-      - ./data:/var/lib/neo4j/import # To import csv
+      - ./data/for_neo4j:/var/lib/neo4j/import # To import csv
     environment: 
       - NEO4J_dbms_memory_pagecache_size=2G
       - NEO4J_dbms_memory_heap_initial_size=2G

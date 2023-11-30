@@ -187,10 +187,14 @@ interests                        varchar(20) []
 -- PRIMARY KEY (public_identifier, full_name)
 );
 
-select public_identifier, full_name,count(*) from uspeople_pc group by 1,2 having count(*)>1;
 
-select * from uspeople_pc;
-where public_identifier like '%alissonslp%';
+select * from companies;
 
-select * from company_pc where lower(name) like '%nike%';
-select * from company_pc;
+-- Top 10 companies
+with job_post as (
+select company_id, count(*) job_postings
+from job_postings group by 1)
+select jp.company_id, c.name, job_postings, cc.employee_count
+from job_post jp
+    left join companies c on c.company_id=jp.company_id
+    left join company_counts cc on c.company_id = cc.company_id;
