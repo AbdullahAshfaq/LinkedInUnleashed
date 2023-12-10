@@ -58,6 +58,8 @@ file_list = [
 if data_dir[-1] != '/':
     data_dir = data_dir+'/'
 
+# Establish a connection to MongoDB
+mongoCon = mongo_utils.Mongo_Connector(creds=creds)
 
 for col, filepath, fields in file_list:
     print(f"-----------------------------------")
@@ -71,9 +73,6 @@ for col, filepath, fields in file_list:
 
     # Converting strings in columns to json
     df = pandas_utils.cols2json(df)
-
-    # Establish a connection to MongoDB
-    mongoCon = mongo_utils.Mongo_Connector(creds=creds)
 
     # Transfer DF to Mongo. The json columns of DF will be json in MongoDB
     print(f"Loading {filepath.split('/')[-1]} into MongoDB ", end=' ')

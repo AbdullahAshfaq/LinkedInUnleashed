@@ -194,7 +194,8 @@ select * from companies;
 with job_post as (
 select company_id, count(*) job_postings
 from job_postings group by 1)
-select jp.company_id, c.name, job_postings, cc.employee_count
+select jp.company_id, ci.industry , c.name, job_postings, cc.employee_count
 from job_post jp
     left join companies c on c.company_id=jp.company_id
-    left join company_counts cc on c.company_id = cc.company_id;
+    left join company_counts cc on c.company_id = cc.company_id
+    left join company_industries ci on c.company_id = ci.company_id;
