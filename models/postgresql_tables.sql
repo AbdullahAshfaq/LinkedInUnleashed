@@ -199,3 +199,21 @@ from job_post jp
     left join companies c on c.company_id=jp.company_id
     left join company_counts cc on c.company_id = cc.company_id
     left join company_industries ci on c.company_id = ci.company_id;
+
+select * from job_postings where title ilike '%data%';
+
+CREATE EXTENSION IF NOT EXISTS vector;
+
+select c.name, cp.name
+from companies c join company_pc cp on lower(c.name) = lower(cp.name);
+
+select *
+from companies where name ilike '%aws%';
+
+select *
+from company_pc where name ilike '%Meta%';
+
+select distinct name
+from company_pc; where name ilike '%Meta%';
+
+

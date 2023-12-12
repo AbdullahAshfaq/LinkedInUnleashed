@@ -1,0 +1,53 @@
+version: '3'
+services:
+  postgres:
+    image: ankane/pgvector
+    environment:
+      POSTGRES_DB: postgresdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5439:5432"
+    volumes:
+      - pgdata_vec:/var/lib/postgresql/data
+
+  # redis:
+  #   image: redis:7.2.3
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redisdata:/data
+
+  neo4j:
+    image: neo4j:3.5
+    restart: unless-stopped
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - neoconf:/conf
+      - neodata:/data
+      - ./data/for_neo4j:/var/lib/neo4j/import # To import csv
+    environment: 
+      - NEO4J_dbms_memory_pagecache_size=2G
+      - NEO4J_dbms_memory_heap_initial_size=2G
+      - NEO4J_dbms_memory_heap_max__size=2G
+      - NEO4JLABS_PLUGINS=["apoc"] # To install APOC procedures
+      - NEO4J_apoc_import_file_enabled=true
+  
+  mongodb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db 
+
+volumes:
+  pgdata_vec: 
+  redisdata:
+  neoconf:
+  neodata:
+  mongodata:

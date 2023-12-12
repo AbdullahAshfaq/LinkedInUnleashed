@@ -15,13 +15,22 @@ class neo_connector():
         
     def runQuery(self, query):
         with self.driver.session() as s:
+            result = s.run(query).data()
+            # values = []
+            # for ix, record in enumerate(result):
+            #     values.append(record.values())
+            # info = result.consume()  # discard
+        # return info, values
+        return result
+        
+    def runQuery_returnObj(self, query):
+        with self.driver.session() as s:
             result = s.run(query)
             values = []
             for ix, record in enumerate(result):
                 values.append(record.values())
             info = result.consume()  # discard
         return info, values
-        
 
     def close(self):
         self.driver.close()

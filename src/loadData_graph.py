@@ -39,6 +39,11 @@ queries = [
         {"$addFields": {"size_edu": {"$size": "$education"}}},
         {"$match": {"size_edu": {"$gt": 0}}},
         {"$project": {"public_identifier": 1, "full_name":1, "education": 1, "_id":0}}
+    ]),
+    ('people_groups.json','people', [
+    {'$addFields': {'size_gp': {'$size': "$groups"}}},
+    {'$match': {'size_gp': {'$gt': 0}}},
+    {'$project': {'public_identifier': 1, 'full_name':1, 'groups': 1, '_id':0}}
     ])
 ]
 
@@ -82,6 +87,7 @@ neo_queries = [
     "CREATE CONSTRAINT on (s:State) assert s.name IS UNIQUE;",
     "CREATE CONSTRAINT on (p:People) assert p.public_identifier IS UNIQUE;",
     "CREATE CONSTRAINT on (e:Edu_Institution) assert e.name IS UNIQUE;",
+    "CREATE CONSTRAINT on (g:Group) assert g.name IS UNIQUE;",
 
     # To import nodes Companies
     '''
@@ -105,13 +111,23 @@ neo_queries = [
     merge (c)-[:WORKS_IN]->(i);
     ''',
 
+    # Import industries from other csv
+    '''
+    load csv with headers from"file:///company_industries.csv" as row
+    with row where row.name is Not NULL
+    match (c:Company {name: row.name})
+    set c.company_id=row.company_id
+    merge (i:Industry {name: row.industry})
+    merge (c)-[:WORKS_IN]->(i);
+    '''
+
     # To import Company-Company relations
     '''
     call apoc.load.json("file:///similar_companies.json") yield value
     match (c:Company{name: value.name})
     unwind value.similar_companies as sim_comp
     merge (d:Company{name:sim_comp.name})
-    merge (c)-[:SIMILAR_TO]->(d);
+    merge (c)-[:SIMILAR_TO]-(d);
     ''',
     # Check for duplicate nodes
     # match (n)-[:SIMILAR_TO]-(m:Company{name:'adidas'}) return *;
@@ -176,7 +192,17 @@ neo_queries = [
     '''
     # In 1st merge, constrain is on u.name so we merge on only that and set remaining properties
 
-
+    # Create groups and add people to them
+    '''
+    call apoc.load.json("file:///people_groups.json") yield value
+    match (p:People {full_name: value.full_name, public_identifier: value.public_identifier})
+    unwind value.groups as gp
+    merge (g:Group {name: coalesce(gp.name,'')})
+    set g.url=coalesce(gp.url,'')
+    merge (p)-[:Is_In_Group]->(g);
+    '''
+    # Find data groups
+    # match (n:Group)--(p:People) where n.name =~ '.*Data.*' return *;
 
 ]
 
