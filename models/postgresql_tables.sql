@@ -187,6 +187,7 @@ interests                        varchar(20) []
 -- PRIMARY KEY (public_identifier, full_name)
 );
 
+-------------------
 
 select * from companies;
 
