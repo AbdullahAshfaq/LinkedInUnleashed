@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgres:
-    image: postgres:16.1
+    image: ankane/pgvector
     environment:
       POSTGRES_DB: postgresdb
       POSTGRES_USER: postgres
@@ -9,7 +9,7 @@ services:
     ports:
       - "5439:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata_vec:/var/lib/postgresql/data
 
   # redis:
   #   image: redis:7.2.3
@@ -46,7 +46,7 @@ services:
       - mongodata:/data/db 
 
 volumes:
-  pgdata: 
+  pgdata_vec: 
   redisdata:
   neoconf:
   neodata:

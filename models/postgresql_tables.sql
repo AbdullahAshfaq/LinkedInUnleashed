@@ -190,31 +190,33 @@ interests                        varchar(20) []
 -------------------
 
 select * from companies;
-
--- Top 10 companies
-with job_post as (
-select company_id, count(*) job_postings
-from job_postings group by 1)
-select jp.company_id, ci.industry , c.name, job_postings, cc.employee_count
-from job_post jp
-    left join companies c on c.company_id=jp.company_id
-    left join company_counts cc on c.company_id = cc.company_id
-    left join company_industries ci on c.company_id = ci.company_id;
-
-select * from job_postings where title ilike '%data%';
+-- drop table job_benefits, job_salaries cascade;
+-- drop table langchain_pg_collection, langchain_pg_embedding cascade;
+--
+-- -- Top 10 companies
+-- with job_post as (
+-- select company_id, count(*) job_postings
+-- from job_postings group by 1)
+-- select jp.company_id, ci.industry , c.name, job_postings, cc.employee_count
+-- from job_post jp
+--     left join companies c on c.company_id=jp.company_id
+--     left join company_counts cc on c.company_id = cc.company_id
+--     left join company_industries ci on c.company_id = ci.company_id;
+--
+-- select * from job_postings where title ilike '%data%';
 
 CREATE EXTENSION IF NOT EXISTS vector;
 
-select c.name, cp.name
-from companies c join company_pc cp on lower(c.name) = lower(cp.name);
-
-select *
-from companies where name ilike '%aws%';
-
-select *
-from company_pc where name ilike '%Meta%';
-
-select distinct name
-from company_pc; where name ilike '%Meta%';
+-- select c.name, cp.name
+-- from companies c join company_pc cp on lower(c.name) = lower(cp.name);
+--
+-- select *
+-- from companies where name ilike '%aws%';
+--
+-- select *
+-- from company_pc where name ilike '%Meta%';
+--
+-- select distinct name
+-- from company_pc; where name ilike '%Meta%';
 
 

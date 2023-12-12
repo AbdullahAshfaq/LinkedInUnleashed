@@ -3,6 +3,7 @@ from utils.sql_utils import *
 
 
 data_dir = './data/' # / at the end necessary
+exec_dir = './LinkedInUnleashed/'
 
 # sql creds
 creds = {
@@ -37,6 +38,12 @@ pgsql = PostgreSQL_Connector(creds)
 # data_dir should end with /
 if data_dir[-1] != '/':
     data_dir = data_dir+'/'
+
+# Creating tables 
+with open(exec_dir+'/models/postgresql_tables.sql','r') as f:
+    create_commands = f.read()
+
+pgsql.runSQL_noReturn(create_commands)
 
 # Loop over all files and upload to db
 for sql_table, filepath in file_list:
