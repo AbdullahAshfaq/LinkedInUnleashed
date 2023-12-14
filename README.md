@@ -19,3 +19,4 @@ Log into PostgreSQL and run the script `postgresql_tables.sql` to create tables.
 3. Run script src/loadData_doc.py to load data into MongoDB.
 
 
+#### Please view the LinkedinUnleashed PPT for a detailed idea about our project.
